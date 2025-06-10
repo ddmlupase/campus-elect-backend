@@ -1,11 +1,13 @@
-import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
+
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  await app.listen(process.env.PORT ?? 3001);
-  console.log(`RUNNING ON PORT: ${process.env.PORT ?? 3001}`);
+  const app = await NestFactory.create(AppModule);
+  const PORT = process.env.PORT ?? 3001
+  await app.listen(PORT);
+
+  console.log(`RUNNIN ON PORT : ${PORT}`)
 }
 void bootstrap();
 
