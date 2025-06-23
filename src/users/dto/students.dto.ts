@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 import { Student, $Enums } from '@prisma/client';
 
 export class ReturnedStudentDto implements Partial<Student> {
@@ -8,13 +8,13 @@ export class ReturnedStudentDto implements Partial<Student> {
   })
   studentId: string;
 
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Department the student belongs to',
     example: 'Computer Science',
   })
   department: string;
 
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Student email address',
     example: 'john.doe@example.com',
   })
