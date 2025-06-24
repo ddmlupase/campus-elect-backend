@@ -4,25 +4,25 @@ import { Student, $Enums } from '@prisma/client';
 export class ReturnedStudentDto implements Partial<Student> {
   @ApiProperty({
     description: 'Unique identifier for the student',
-    example: '12345',
+    example: '123abc',
   })
   studentId: string;
 
   @ApiProperty({
-    description: 'Department the student belongs to',
-    example: 'Computer Science',
+    description: 'Department of the student',
+    example: 'Computer Studies',
   })
   department: string;
 
   @ApiProperty({
-    description: 'Student email address',
-    example: 'john.doe@example.com',
+    description: 'Email of the student',
+    example: 'kasaneteto@addu.edu.ph',
   })
   email: string;
 
   @ApiProperty({
-    description: 'Student first name',
-    example: 'John',
+    description: 'Full name of the student',
+    example: 'Kasane Teto',
   })
   name: string;
 
@@ -32,4 +32,30 @@ export class ReturnedStudentDto implements Partial<Student> {
     example: $Enums.Role.STUDENT,
   })
   role: $Enums.Role;
+}
+
+export class CreateStudentDto {
+  @ApiProperty({
+    description: 'Unique identifier for the student',
+    example: '123abc',
+  })
+  studentId: string;
+
+  @ApiProperty({
+    description: 'Department of the student',
+    example: 'Computer Studies',
+  })
+  department: string;
+
+  @ApiProperty({
+    description: 'Email of the student',
+    example: 'kasaneteto@addu.edu.ph',
+  })
+  email: string;
+
+  @ApiProperty({
+    description: 'Full name of the student',
+    example: 'Kasane Teto',
+  })
+  name: string;
 }

@@ -1,33 +1,58 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Student } from '@prisma/client';
+import { CreateStudentDto } from 'src/users/dto/students.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
-
-  async findAllStudents(): Promise<Student[]> {
-    return this.prisma.student.findMany();
-    
-  }
+  constructor(private prisma: PrismaService) {}
 
   /**
-   * Retrieves a student by their ID from the database.
-   * @returns 
+   * TS Doc/JS Doc
+   * @Retrieves all students from the database.
+   * @Returns a promise that resolves to an array of student objects.
+   *
    */
-  async findStudentById({ id }: {id: Student['studentId']}): Promise<Student> {
+  async findAllStudents(): Promise<Student[]> {
+    return this.prisma.student.findMany();
+  }
+  /**
+   *
+   * @retrieves a student by their ID from the database.
+   *
+   */
+  async findStudentById({
+    id,
+  }: {
+    id: Student['studentId'];
+  }): Promise<Student> {
     const student = await this.prisma.student.findUnique({
-      where: { 
-        studentId: id 
-      }
-    })
+      where: {
+        studentId: id,
+      },
+    });
 
     if (!student) {
-      //use NotFoundException for proper HTT handling
-      //@see @nest/common
-      throw new NotFoundException('Student not found');
+      // Use a NotFoundException for proper HTTP error handling
+      // @see @nest/common
+      throw new NotFoundException(`Student not found.`);
     }
 
     return student;
+  }
+
+  async createStudent(data: CreateStudentDto): Promise<Student> {
+    // Check if student already exists
+    const existing = await this.prisma.student.findUnique({
+      where: { studentId: data.studentId },
+    });
+    if (existing) {
+      throw new ConflictException('Student with this ID already exists.');
+    }
+    return this.prisma.student.create({ data });
   }
 }
